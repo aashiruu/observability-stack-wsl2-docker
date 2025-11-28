@@ -1,0 +1,35 @@
+groups:
+  - name: system-alerts
+    rules:
+
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 80
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          description: "CPU usage above 80% for more than 1 minute."
+
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 < 20
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          description: "Memory usage above 80%."
+
+      - alert: NodeDown
+        expr: up == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          description: "One of the scrape targets is down."
+
+      - alert: HighDiskUsage
+        expr: (node_filesystem_avail_bytes{fstype!="tmpfs"} / node_filesystem_size_bytes{fstype!="tmpfs"}) < 0.20
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          description: "Disk usage above 80%."
