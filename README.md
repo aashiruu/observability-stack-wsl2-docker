@@ -33,7 +33,7 @@ observability-stack/
 │   └── local-config.yaml
 │
 └── dashboards/
-    └── *.json   # (Optional) Grafana dashboard exports
+    └── .json    Grafana dashboard exports
 ```
 
 ## Requirements
